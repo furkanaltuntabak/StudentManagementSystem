@@ -1,0 +1,49 @@
+@model StudentManagementSystem.Data.DersProgrami
+
+@{
+    ViewData["Title"] = "Ders Programı Ekle";
+}
+
+<h2>Ders Programı Ekle</h2>
+@if (ViewBag.Hata != null)
+{
+    <div class="alert alert-danger">
+        <strong>Hata:</strong> @ViewBag.Hata
+    </div>
+}
+
+
+<form asp-action="Ekle" method="post">
+    <div class="form-group">
+        <label>Ders</label>
+        <select asp-for="DersID" class="form-select" asp-items="ViewBag.Dersler"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Derslik</label>
+        <select asp-for="DerslikID" class="form-select" asp-items="ViewBag.Derslikler"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Gün</label>
+        <select asp-for="Gun" class="form-select">
+            <option>Pazartesi</option>
+            <option>Salı</option>
+            <option>Çarşamba</option>
+            <option>Perşembe</option>
+            <option>Cuma</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Saat</label>
+        <select asp-for="Saat" class="form-select">
+            <option>09:00</option>
+            <option>11:00</option>
+            <option>13:00</option>
+            <option>15:00</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Ekle</button>
+</form>

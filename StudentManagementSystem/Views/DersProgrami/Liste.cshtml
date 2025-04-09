@@ -1,0 +1,131 @@
+@model StudentManagementSystem.ViewModels.DersProgramiListeViewModel
+
+@{
+    var gunler = new[] { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
+    var saatler = Model.DersProgramlari.Select(m => m.Saat).Distinct().OrderBy(s => s).ToList();
+}
+
+<form method="get" asp-controller="DersProgrami" asp-action="Liste" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="SinifID" class="form-label">Sınıf</label>
+            <select id="sinifDropdown" asp-for="SinifID" asp-items="Model.Siniflar" class="form-select">
+                <option value="">Tümü</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="DonemID" class="form-label">Dönem</label>
+            <select id="donemDropdown" asp-for="DonemID" class="form-select">
+                <option value="">Tümü</option>
+                @foreach (var donem in Model.Donemler)
+                {
+                    <option value="@donem.Value" data-sinif="@donem.Text.Substring(0, 1)">
+                        @donem.Text
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-bordered text-center mt-4">
+    <thead class="table-success">
+        <tr>
+            <th>Saat / Gün</th>
+            @foreach (var gun in gunler)
+            {
+                <th>@gun</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var saat in saatler)
+        {
+            <tr>
+                <td><strong>@saat</strong></td>
+                @foreach (var gun in gunler)
+                {
+                    var ders = Model.DersProgramlari.FirstOrDefault(m => m.Saat == saat && m.Gun == gun);
+                    if (ders != null)
+                    {
+                        <td class="table-secondary">
+                            <strong>@ders.Ders?.DersAdi</strong><br />
+                            @ders.Ders?.OgretimElemani?.AdSoyad<br />
+                            @ders.Derslik?.DerslikAdi
+                            <form asp-action="Delete" asp-controller="DersProgrami" asp-route-id="@ders.DersProgramiID" method="post" onsubmit="return confirm('Bu dersi silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="btn btn-sm btn-danger mt-1">Sil</button>
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    window.onload = function () {
+        const sinifDropdown = document.getElementById('sinifDropdown');
+        const donemDropdown = document.getElementById('donemDropdown');
+
+        // Eğer hiçbir sınıf seçili değilse, 1. sınıfı seç
+        if (!sinifDropdown.value) {
+            sinifDropdown.value = "1";
+        }
+
+        const seciliSinif = sinifDropdown.value;
+        const options = donemDropdown.querySelectorAll('option');
+
+        let ilkUygunDonem = null;
+
+        options.forEach(option => {
+            const sinif = option.getAttribute('data-sinif');
+
+            if (!sinif) {
+                option.hidden = false;
+                return;
+            }
+
+            const uyumlu = sinif === seciliSinif;
+            option.hidden = !uyumlu;
+
+            if (uyumlu && !ilkUygunDonem) {
+                ilkUygunDonem = option.value;
+            }
+        });
+
+        // Dönem seçili değilse, ilk uygun dönemi seç
+        if (!donemDropdown.value && ilkUygunDonem) {
+            donemDropdown.value = ilkUygunDonem;
+        }
+    };
+</script>
+
+
+<script>
+    document.getElementById('sinifDropdown').addEventListener('change', function () {
+        const seciliSinif = this.value;
+        const donemDropdown = document.getElementById('donemDropdown');
+
+        const options = donemDropdown.querySelectorAll('option');
+
+        options.forEach(option => {
+            const sinif = option.getAttribute('data-sinif');
+
+            if (!sinif) {
+                option.hidden = false;
+                return;
+            }
+
+            option.hidden = sinif !== seciliSinif;
+        });
+
+        donemDropdown.value = '';
+    });
+</script>

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,18 +22,271 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                   
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="Ekle">Ekle</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="Liste">Liste</a>
-                        </li>
+                        @{
+                            var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+                        }
+
+                        @if (string.IsNullOrEmpty(kullaniciRol))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+                            </li>
+                        }
+                        else if (kullaniciRol == "Bölüm Başkanı")
+                        {
+                             
+                            <div class="dropdown" style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Ders Programı Menusu
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="Ekle">Ders Progamına Ders Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="Liste">Ders Programını Listele</a>
+                                    </li>
+                                </ul>
+                                
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Ders Menusu
+                                </button>
+                                <ul class="dropdown-menu ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ders" asp-action="DersEkle">Ders Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ders" asp-action="Liste">Dersleri Listele</a>
+                                    </li>
+                                </ul>
+                                
+                              </div>
+                              <div class="dropdown" style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Ogretim Elemanı Menü
+                                </button>
+                                <ul class="dropdown-menu ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ders" asp-action="OgretimElemaninaDersAta">Öğretim Elemanına Ders Ata</a>
+                                    </li>
+                                   
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="OgretimElemanlari">Öğretim Elemanı Ders Programı Görüntüle</a>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Kullanici Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="BaskanKullaniciEkle">Kullanici Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="BaskanListe">Kullanici Listele</a>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Sınav Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Ekle">Sinav Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Liste">Sinavlari Listele</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Create">Sinav Oturma Planı Oluştur</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="ProgramListe">Sinav Oturma Planını Göster</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="NotlariGoster">Notları Göster</a>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Derslik Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Derslik" asp-action="Liste">Derslik Listele</a>
+                                    </li>
+                                    
+                                </ul>
+                              </div>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline" style="margin-left: 8px;">
+                             <button type="submit" class="btn btn-danger dropdown-toggle" style="height: 38px; padding: 6px 12px;">
+                            Çıkış Yap
+                            </button>
+                             </form>
+
+
+
+                        }
+                        else if (kullaniciRol == "Bölüm Sekreteri")
+                        {
+                            
+                            
+                           
+                           
+                            <div class="dropdown" style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Ders Programı Menusu
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="Ekle">Ders Progamına Ders Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="Liste">Ders Programını Listele</a>
+                                    </li>
+                                </ul>
+                                
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Ders Menusu
+                                </button>
+                                <ul class="dropdown-menu ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ders" asp-action="DersEkle">Ders Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ders" asp-action="Liste">Dersleri Listele</a>
+                                    </li>
+                                </ul>
+                                
+                              </div>
+                              <div class="dropdown" style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Ogretim Elemanı Menü
+                                </button>
+                                <ul class="dropdown-menu ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ders" asp-action="OgretimElemaninaDersAta">Öğretim Elemanına Ders Ata</a>
+                                    </li>
+                                   
+                                </ul>
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Öğrenci Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="Ekle">Öğrenci Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="Liste">Kullanicilari Listele</a>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Sınav Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Ekle">Sinav Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Liste">Sinavlari Listele</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Create">Sinav Oturma Planı Oluştur</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="ProgramListe">Sinav Oturma Planını Göster</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="NotlariGoster">Notları Göster</a>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Derslik Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Derslik" asp-action="Liste">Derslik Listele</a>
+                                    </li>
+                                    
+                                </ul>
+                              </div>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline" style="margin-left: 8px;">
+                                    <button type="submit" class="btn btn-danger dropdown-toggle" style="height: 38px; padding: 6px 12px;">
+                                        Çıkış Yap
+                                    </button>
+                                </form>
+
+
+                        }
+                        else if (kullaniciRol == "Öğretim Elemanı")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="DersProgramim">Kendi Ders Programım</a>
+                            </li>
+                          
+                           <div class="dropdown " style="margin-right: 2px;">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Sınav Menü
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="Liste">Sinavlari Listele</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="OgretimElemaniSinavlari">Kendi Sınavlarınız</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Sinav" asp-action="ProgramListe">Sinav Oturma Planını Göster</a>
+                                    </li>
+                                </ul>
+                              </div>
+                       <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline" style="margin-left: 8px;">
+                        <button type="submit" class="btn btn-danger dropdown-toggle" style="height: 38px; padding: 6px 12px;">
+                            Çıkış Yap
+                        </button>
+                    </form>
+                        
+
+                        }
+                        else if (kullaniciRol == "Öğrenci")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DersProgrami" asp-action="OgrenciDersProgrami">Ders Programım</a>
+                            </li>
+                            
+                           <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline" style="margin-left: 8px;">
+                            <button type="submit" class="btn btn-danger dropdown-toggle" style="height: 38px; padding: 6px 12px;">
+                                Çıkış Yap
+                            </button>
+                        </form>
+
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Login", "Account")">Geçersiz Rol</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -42,6 +298,7 @@
             &copy; 2025 - StudentManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

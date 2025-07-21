@@ -19,6 +19,9 @@ namespace StudentManagementSystem.Data
 
         [Required]
         public int DerslikID { get; set; }
+         
+        [Required]
+        public int OgretimElemaniID { get; set; }  // Öğretim Elemanı (Gözetmen)
 
         [ForeignKey("DersID")]
         public Ders? Ders { get; set; }
@@ -26,6 +29,8 @@ namespace StudentManagementSystem.Data
         [ForeignKey("DerslikID")]
         public Derslik? Derslik { get; set; }
 
+        [ForeignKey("OgretimElemaniID")]
+        public Kullanici? OgretimElemani { get; set; }  // Öğretim Elemanıyla ilişki
       
     }
 }

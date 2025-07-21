@@ -1,0 +1,40 @@
+@model IEnumerable<StudentManagementSystem.Data.Sinav>
+
+<h2>Kendi Sınavlarım</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ders</th>
+            <th>Derslik</th>
+            <th>Sınav Tarihi</th>
+            <th>Sınav Saati</th>
+            <th>Gözetmen</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sinav in Model)
+        {
+            <tr>
+                <td>@sinav.Ders?.DersAdi</td>
+                <td>@sinav.Derslik?.DerslikAdi</td>
+                <td>@sinav.Tarih.ToString("yyyy-MM-dd")</td>
+                <td>@sinav.Saat</td>
+                <td>@sinav.OgretimElemani?.AdSoyad</td>
+                <td>
+                    <a class="btn btn-warning btn-sm me-1" 
+                       href="@Url.Action("NotAl", "Sinav", new { id = sinav.SinavID })">
+                        Not Al
+                    </a>
+
+                    <form asp-action="Delete" asp-route-id="@sinav.SinavID" method="post" style="display:inline;"
+                          onsubmit="return confirm('Bu sınavı silmek istediğinize emin misiniz?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    

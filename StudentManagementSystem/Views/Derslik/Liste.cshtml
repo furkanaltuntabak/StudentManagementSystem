@@ -1,0 +1,56 @@
+@model IEnumerable<StudentManagementSystem.Data.Derslik>
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+
+@if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+{
+    <h2>Tüm Derslikler</h2>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Derslik Adı</th>
+                <th>Kapasite</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var derslik in Model)
+            {
+                <tr>
+                    <td>@derslik.DerslikAdi</td>
+                    <td>@derslik.Kapasite</td>
+                    <td>
+                        <a asp-controller="Derslik" asp-action="DersliktekiDersler" asp-route-id="@derslik.DerslikID" class="btn btn-info btn-sm">Detay</a>
+                        <a asp-controller="Derslik" asp-action="Duzenle" asp-route-id="@derslik.DerslikID" class="btn btn-warning btn-sm ms-2">Düzenle</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

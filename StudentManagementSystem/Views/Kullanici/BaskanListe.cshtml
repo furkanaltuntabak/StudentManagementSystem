@@ -1,0 +1,58 @@
+@model List<StudentManagementSystem.Data.Kullanici>
+    @inject IHttpContextAccessor HttpContextAccessor
+
+    @{
+        ViewData["Title"] = "Kullanıcı Listesi - Bölüm Başkanı";
+         var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    }
+    
+
+@if (kullaniciRol == "Bölüm Başkanı")
+{
+    <h2>Kullanıcı Listesi</h2>
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Ad Soyad</th>
+                <th>Eposta</th>
+                <th>Rol</th>
+                <th>Sınıf</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var kullanici in Model)
+            {
+                <tr>
+                    <td>@kullanici.AdSoyad</td>
+                    <td>@kullanici.Eposta</td>
+                    <td>@kullanici.Rol?.RolAdi</td>
+                    <td>@(kullanici.RolID == 1 ? kullanici.Sinif?.SinifAdi ?? "-" : "-")</td>
+                    <td>
+                           <a asp-action="RolGuncelle" asp-route-id="@kullanici.KullaniciID" class="btn btn-sm btn-primary">Düzenle</a>
+                        <form asp-action="Sil" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@kullanici.KullaniciID" />
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')">Sil</button>
+                        </form>
+                    </td>
+                </tr>   
+            }
+        </tbody>
+    </table>
+    
+    <a class="btn btn-success" asp-action="BaskanKullaniciEkle">Yeni Kullanıcı Ekle</a>
+    }
+else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger mt-5 text-center">
+        Bu sayfa için yetkiniz yok!
+    </div>
+}

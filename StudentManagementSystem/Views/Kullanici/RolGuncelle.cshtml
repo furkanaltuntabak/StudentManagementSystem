@@ -1,0 +1,58 @@
+@model StudentManagementSystem.Data.Kullanici
+@using Microsoft.AspNetCore.Mvc.Rendering
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Kullanıcı Güncelle";
+}
+ @{
+        var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    }
+    @if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+    {
+<h2>Kullanıcı Bilgilerini Güncelle</h2>
+
+<form asp-action="RolGuncelle" method="post">
+    <input type="hidden" asp-for="KullaniciID" />
+
+    <div class="form-group">
+        <label asp-for="AdSoyad"></label>
+        <input asp-for="AdSoyad" class="form-control" />
+        <span asp-validation-for="AdSoyad" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Eposta"></label>
+        <input asp-for="Eposta" class="form-control" />
+        <span asp-validation-for="Eposta" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RolID">Rol</label>
+        <select asp-for="RolID" asp-items="@(ViewBag.Roller as SelectList)" class="form-control"></select>
+        <span asp-validation-for="RolID" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-action="KullaniciListesi" class="btn btn-secondary">İptal</a>
+</form>
+ }
+    else if (string.IsNullOrEmpty(kullaniciRol))
+    {
+        <div class="text-center mt-5">
+            <h3>Lütfen Giriş Yapın</h3>
+            <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+        </div>
+    }else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="text-center">
+                            Bu sayfa için yetkiniz yok!
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

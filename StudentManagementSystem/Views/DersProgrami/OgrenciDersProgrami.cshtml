@@ -1,0 +1,89 @@
+@model StudentManagementSystem.ViewModels.DersProgramiListeViewModel
+
+@{
+    var gunler = new[] { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
+    var saatler = Model.DersProgramlari.Select(m => m.Saat).Distinct().OrderBy(s => s).ToList();
+}
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    var kullaniciSinifID = HttpContextAccessor.HttpContext.Session.GetInt32("KullaniciSinifID"); // SınıfID'yi session'dan al
+}
+
+@if (kullaniciRol == "Öğrenci")
+{
+    <form method="get" asp-controller="DersProgrami" asp-action="OgrenciDersProgrami">
+        <input type="hidden" name="SinifID" value="@kullaniciSinifID" />
+        <div class="mb-3">
+            <label for="DonemID" class="form-label">Dönem</label>
+            <select id="DonemID" name="DonemID" class="form-select">
+                @foreach (var donem in Model.Donemler)
+                {
+                    if (donem.Text.StartsWith(kullaniciSinifID.ToString()))
+                    {
+                        <option value="@donem.Value" selected="@(Model.DonemID.ToString() == donem.Value ? "selected" : null)">
+                            @donem.Text
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </form>
+    
+
+    <table class="table table-bordered text-center mt-4">
+        <thead class="table-success">
+            <tr>
+                <th>Saat / Gün</th>
+                @foreach (var gun in gunler)
+                {
+                    <th>@gun</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var saat in saatler)
+            {
+                <tr>
+                    <td><strong>@saat</strong></td>
+                    @foreach (var gun in gunler)
+                    {
+                        var ders = Model.DersProgramlari.FirstOrDefault(m => m.Saat == saat && m.Gun == gun);
+                        if (ders != null)
+                        {
+                            <td class="table-secondary">
+                                <strong>@ders.Ders?.DersAdi</strong><br />
+                                @ders.Ders?.OgretimElemani?.AdSoyad<br />
+                                @ders.Derslik?.DerslikAdi
+                            </td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+                    }
+                </tr>
+            }   
+        </tbody>
+    </table>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

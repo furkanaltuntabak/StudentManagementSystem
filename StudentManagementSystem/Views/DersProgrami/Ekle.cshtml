@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Ders Programı Ekle";
 }
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+@if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+{
 
 <h2>Ders Programı Ekle</h2>
 @if (ViewBag.Hata != null)
@@ -38,12 +44,32 @@
     <div class="form-group">
         <label>Saat</label>
         <select asp-for="Saat" class="form-select">
-            <option>09:00</option>
-            <option>11:00</option>
-            <option>13:00</option>
-            <option>15:00</option>
+            <option>09:00-11:50</option>
+            <option>11:00-12:50</option>
+            <option>13:00-14:50</option>
+            <option>15:00-16:50</option>
         </select>
     </div>
 
     <button type="submit" class="btn btn-success">Ekle</button>
 </form>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

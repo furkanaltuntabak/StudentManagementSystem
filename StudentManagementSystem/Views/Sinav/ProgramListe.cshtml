@@ -1,0 +1,267 @@
+@model List<StudentManagementSystem.Data.SinavOturmaPlani>
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    int totalRows = 10;
+    var amfiList = Model.Where(x => x.DerslikID == 1).ToList();
+    var d108List = Model.Where(x => x.DerslikID == 3).ToList();
+}
+ @{
+        var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    }
+    @if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı" || kullaniciRol=="Öğretim Elemanı")
+    {
+<h5 class="text-center text-muted mt-2">
+    Gözetmen: @TempData["GozetmenAdi"]
+    
+</h5>
+
+<h5 class="text-center text-muted">Ders: @TempData["DersAdi"]</h5>
+<div class="text-center mt-3">
+    <button onclick="window.print()" class="btn btn-outline-secondary">
+        Yazdır / PDF Olarak Kaydet
+    </button>
+</div>
+
+<!-- SINIF SEÇME BAR -->
+<ul class="nav nav-pills justify-content-center mb-4">
+    @for (int i = 1; i <= 4; i++)
+    {
+        <li class="nav-item">
+            <a class="nav-link @(ViewBag.SinifID == i ? "active" : "")"
+               href="@Url.Action("ProgramListe", "Sinav", new { sinifid = i })">@i. Sınıf</a>
+        </li>
+    }
+</ul>
+
+<div class="container mt-5">
+    <h2 class="text-center">@ViewBag.SinifAdi Sınıfı Oturma Planı</h2>
+
+    <!-- Tümünü Sil Butonu -->
+    <form asp-action="TumunuSil" asp-controller="Sinav" method="post"
+          onsubmit="return confirm('Tüm oturma planlarını silmek istiyor musunuz?');"
+          class="text-center mt-3">
+        <button type="submit" class="btn btn-danger">Tümünü Sil</button>
+    </form>
+
+    <!-- AMFİ -->
+    <h4 class="text-center mt-5">AMFİ</h4>
+    @{
+        int amfiIndex = 0;
+    }
+    <div class="d-flex flex-column gap-3 mt-4">
+        @for (int row = 0; row < totalRows; row++)
+        {
+            <div class="d-flex justify-content-center gap-5">
+                <!-- Sol Blok -->
+                <div class="d-flex gap-2">
+                    @for (int i = 1; i <= 4; i++)
+                    {
+                        if (i == 1 || i == 4)
+                        {
+                            if (amfiIndex < amfiList.Count)
+                            {
+                                var o = amfiList[amfiIndex++];
+                                <div class="seat filled">
+                                    @o.Ogrenci?.AdSoyad <br />
+                                    @o.Ogrenci?.Numara
+                                    <form asp-action="Sil" asp-controller="Sinav" method="post"  onsubmit="return confirm('Bu öğrenciyi silmek istiyor musunuz?');">
+                                        <input type="hidden" name="id" value="@o.SinavOturmaPlaniID" />
+                                        <button type="submit" class="btn btn-sm btn-danger mt-1">Sil</button>
+                                    </form>
+                                </div>
+                            }
+                            else { <div class="seat empty">Boş</div> }
+                        }
+                        else { <div class="seat empty"></div> }
+                    }
+                </div>
+
+                <!-- Orta Blok -->
+                <div class="d-flex gap-2">
+                    @for (int i = 1; i <= 3; i++)
+                    {
+                        if (i==2)
+                        {
+                            if (amfiIndex < amfiList.Count)
+                            {
+                                var o = amfiList[amfiIndex++];
+                                <div class="seat filled">
+                                    @o.Ogrenci?.AdSoyad <br />
+                                    @o.Ogrenci?.Numara
+                                    <form asp-action="Sil" asp-controller="Sinav" method="post" onsubmit="return confirm('Bu öğrenciyi silmek istiyor musunuz?');">
+                                        <input type="hidden" name="id" value="@o.SinavOturmaPlaniID" />
+                                        <button type="submit" class="btn btn-sm btn-danger mt-1">Sil</button>
+                                    </form>
+                                </div>
+                            }
+                            else { <div class="seat empty">Boş</div> }
+                        }
+                        else { <div class="seat empty"></div> }
+                    }
+                </div>
+
+                <!-- Sağ Blok -->
+                <div class="d-flex gap-2">
+                    @for (int i = 1; i <= 4; i++)
+                    {
+                        if (i == 1 || i == 4)
+                        {
+                            if (amfiIndex < amfiList.Count)
+                            {
+                                var o = amfiList[amfiIndex++];
+                                <div class="seat filled">
+                                    @o.Ogrenci?.AdSoyad <br />
+                                    @o.Ogrenci?.Numara
+                                    <form asp-action="Sil" asp-controller="Sinav" method="post" onsubmit="return confirm('Bu öğrenciyi silmek istiyor musunuz?');">
+                                        <input type="hidden" name="id" value="@o.SinavOturmaPlaniID" />
+                                        <button type="submit" class="btn btn-sm btn-danger mt-1">Sil</button>
+                                    </form>
+                                </div>
+                            }
+                            else { <div class="seat empty">Boş</div> }
+                        }
+                        else { <div class="seat empty"></div> }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+<!-- D108 -->
+<h4 class="text-center mt-5">D108</h4>
+@{
+    int d108Index = 0;
+}
+<div class="d-flex flex-column align-items-center gap-3 mt-4">
+    @for (int row = 0; row < 8; row++) // 8 sıra
+    {
+        <div class="d-flex">
+            @for (int col = 0; col < 8; col++)
+            {
+                // Sadece boş koltuktan sonra (yani col % 2 == 1) ek boşluk bırak
+                string extraGap = (col % 2 == 1) ? "after-space" : "";
+
+                if (col % 2 == 0) // sadece 0,2,4,6 dolu olacak
+                {
+                    if (d108Index < d108List.Count)
+                    {
+                        var o = d108List[d108Index++];
+                        <div class="seat filled @extraGap">
+                            @o.Ogrenci?.AdSoyad <br />
+                            @o.Ogrenci?.Numara
+                            <form asp-action="Sil" asp-controller="Sinav" method="post" onsubmit="return confirm('Bu öğrenciyi silmek istiyor musunuz?');">
+                                <input type="hidden" name="id" value="@o.SinavOturmaPlaniID" />
+                                <button type="submit" class="btn btn-sm btn-danger mt-1">Sil</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="seat empty @extraGap">Boş</div>
+                    }
+                }
+                else
+                {
+                    <div class="seat empty @extraGap"></div>
+                }
+            }
+        </div>
+    }
+</div>
+
+<h4 class="mt-5">Öğrenci Listesi</h4>
+<table class="table table-bordered table-sm mt-2">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ad Soyad</th>
+            <th>Numara</th>
+            <th>Sıra No</th>
+            <th>Koltuk No</th>
+            <th>Derslik</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@Model[i].Ogrenci?.AdSoyad</td>
+                <td>@Model[i].Ogrenci?.Numara</td>
+                <td>@Model[i].SiraNo</td>
+                <td>@Model[i].KoltukNo</td>
+                <td>@Model[i].Derslik?.DerslikAdi</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+   
+</div>
+<style>
+    .seat {
+        width: 70px;
+        height: auto;
+        min-height: 60px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .after-space {
+        margin-right: 45px;
+    }
+
+    .filled {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .empty {
+        background-color: #e9ecef;
+    }
+
+    form {
+        margin-top: 5px;
+    }
+
+    .btn-sm {
+        padding: 2px 8px;
+        font-size: 11px;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    @@media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+
+  }
+    else if (string.IsNullOrEmpty(kullaniciRol))
+    {
+        <div class="text-center mt-5">
+            <h3>Lütfen Giriş Yapın</h3>
+            <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+        </div>
+    }else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="text-center">
+                            Bu sayfa için yetkiniz yok!
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

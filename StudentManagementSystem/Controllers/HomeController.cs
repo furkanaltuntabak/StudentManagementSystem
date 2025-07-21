@@ -6,11 +6,18 @@ namespace StudentManagementSystem.Controllers;
 
 public class HomeController : Controller
 {
-   
-    public IActionResult Index()
+ public IActionResult Index()
+{
+    var kullaniciAdi = HttpContext.Session.GetString("AdSoyad");
+    if (string.IsNullOrEmpty(kullaniciAdi))
     {
-        return View();
+        kullaniciAdi = "Misafir";
     }
+
+    ViewData["KullaniciAdi"] = kullaniciAdi;
+    return View();
+}
+
 
     public IActionResult Privacy()
     {

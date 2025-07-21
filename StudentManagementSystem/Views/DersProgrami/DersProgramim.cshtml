@@ -1,0 +1,103 @@
+@model List<StudentManagementSystem.Data.DersProgrami>
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Ders Ekle";
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    var gunler = new[] { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
+    var saatler = Model.Select(m => m.Saat).Distinct().OrderBy(s => s).ToList();
+}
+
+@if (kullaniciRol == "Öğretim Elemanı")
+{
+    <h2 class="mt-3">Kendi Ders Programım</h2>
+
+    <div class="text-end mb-3">
+        <a class="btn btn-outline-primary" href="@Url.Action("BenimIsimligim", "KapiIsimligi")">
+            Kapı İsimliğimi Gör
+        </a>
+    </div>
+
+    <div class="mb-3 text-end">
+        <button class="btn btn-danger" onclick="indirmekIcinPDF()">PDF Olarak İndir</button>
+    </div>
+
+    <div id="dersProgramiAlani">
+        <table class="table table-bordered text-center mt-4">
+            <thead class="table-success">
+                <tr>
+                    <th>Saat / Gün</th>
+                    @foreach (var gun in gunler)
+                    {
+                        <th>@gun</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var saat in saatler)
+                {
+                    <tr>
+                        <td><strong>@saat</strong></td>
+                        @foreach (var gun in gunler)
+                        {
+                            var ders = Model.FirstOrDefault(m => m.Saat == saat && m.Gun == gun);
+                            if (ders != null)
+                            {
+                                <td class="table-secondary">
+                                    <strong>@ders.Ders?.DersAdi</strong><br />
+                                    @ders.Ders?.OgretimElemani?.AdSoyad<br />
+                                    @ders.Derslik?.DerslikAdi<br />
+                                    @ders.Ders?.Sinif?.SinifAdi<br />
+                                    @ders.Ders?.Donem?.DonemAdi
+                                </td>
+                            }
+                            else
+                            {
+                                <td>-</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function indirmekIcinPDF() {
+            const element = document.getElementById("dersProgramiAlani");
+            var opt = {
+                margin:       0.5,
+                filename:     'DersProgrami.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+}

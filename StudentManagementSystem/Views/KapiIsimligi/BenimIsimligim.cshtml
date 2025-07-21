@@ -1,0 +1,13 @@
+@model StudentManagementSystem.Data.KapiIsimligi
+
+<h2>Kapı İsimliğiniz</h2>
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">@Model.KapiIsimligiAdi</h4>
+            <p class="card-text">Öğretim Elemanı ID: @Model.OgretimElemaniID</p>
+        </div>
+    </div>
+}

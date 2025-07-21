@@ -1,0 +1,65 @@
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model StudentManagementSystem.Data.Kullanici
+
+@{
+    ViewData["Title"] = "Kullanıcı Ekle";
+}
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+@if (kullaniciRol == "Bölüm Sekreteri")
+{
+<h1>Kullanıcı Ekle</h1>
+
+<form asp-action="Ekle" method="post">
+    <div class="form-group">
+        <label for="AdSoyad">Ad Soyad</label>
+        <input type="text" class="form-select" id="AdSoyad" name="AdSoyad" required />
+    </div>
+    <div class="form-group">
+        <label for="Eposta">E-posta</label>
+        <input type="email" class="form-select" id="Eposta" name="Eposta" required />
+    </div>
+    <div class="form-group">
+        <label for="Sifre">Şifre</label>
+        <input type="password" class="form-select" id="Sifre" name="Sifre" required />
+    </div>
+    <div class="form-group">
+        <label for="SinifID">Sınıf (Sadece Öğrenci için)</label>
+        <select class="form-select" id="SinifID" name="SinifID">
+            <option value="">-- Sınıf Seçin --</option>
+            @foreach (var sinif in (List<SelectListItem>)ViewBag.Siniflar)
+            {
+                <option value="@sinif.Value">@sinif.Text</option>
+            }
+        </select>
+    </div>
+    <!-- Rol seçimi varsayılan olarak 'Öğrenci' olacak -->
+    <div class="form-group">
+        <label for="RolID">Rol</label>
+        <input type="text" class="form-control" id="RolID" name="RolID" value="1" readonly />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Ekle</button>
+</form>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

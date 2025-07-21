@@ -1,0 +1,61 @@
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Ders Ekle";
+}
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+@if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+{
+<h2>Ders Ekle</h2>
+
+<form asp-action="DersEkle" method="post">
+    <div class="form-group">
+        <label for="SinifID">Sınıf</label>
+        <select name="sinifId" class="form-control" required>
+            <option value="">-- Sınıf Seçin --</option>
+            @foreach (var sinif in ViewBag.Siniflar as SelectList)
+            {
+                <option value="@sinif.Value">@sinif.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Donem">Dönem</label>
+        <select name="donem" class="form-control" required>
+            <option value="">-- Dönem Seçin --</option>
+            @foreach (var donem in ViewBag.Donemler as List<SelectListItem>)
+            {
+                <option value="@donem.Value">@donem.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="DersAdi">Ders Adı</label>
+        <input type="text" name="dersAdi" class="form-control" placeholder="Ders adı girin" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ders Ekle</button>
+</form>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

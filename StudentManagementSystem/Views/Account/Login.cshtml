@@ -1,0 +1,31 @@
+@model StudentManagementSystem.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Kullanıcı Girişi";
+}
+
+<h2>Kullanıcı Girişi</h2>
+
+<form asp-action="Login" method="post">
+    <div>
+        <label asp-for="Eposta"></label>
+        <input asp-for="Eposta" class="form-control" />
+        <span asp-validation-for="Eposta" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Sifre"></label>
+        <input asp-for="Sifre" class="form-control" />
+        <span asp-validation-for="Sifre" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="submit">Giriş Yap</button>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

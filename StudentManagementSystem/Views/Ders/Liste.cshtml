@@ -1,0 +1,80 @@
+@model IEnumerable<StudentManagementSystem.Data.Ders>
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Ders Listesi";
+}
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+@if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+{
+<h2>Ders Listesi</h2>
+
+<!-- Dersleri listele -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ders Adı</th>
+            <th>Sınıf</th>
+            <th>Dönem</th>
+            <th>Öğretim Elemanı</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ders in Model)
+        {
+            <tr>
+                <td>@ders.DersAdi</td>
+                <td>@ders.Sinif.SinifAdi</td>
+                <td>
+                    @if (ders.DonemID % 2 == 1)
+                    {
+                        <span>Güz</span>
+                    }
+                    else
+                    {
+                        <span>Bahar</span>
+                    }
+                </td>
+                <td>
+                    @if (ders.OgretimElemani != null)
+                    {
+                        @ders.OgretimElemani.AdSoyad
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>
+                    <form asp-action="Sil" method="post" style="display:inline" onsubmit="return confirm('Bu dersi silmek istediğinize emin misiniz?')">
+                    <input type="hidden" name="id" value="@ders.DersID" />
+                    <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                    </form>
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

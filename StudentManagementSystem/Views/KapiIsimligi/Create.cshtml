@@ -1,0 +1,42 @@
+@model StudentManagementSystem.Data.KapiIsimligi
+   @inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Ders Ekle";
+}
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}@if (kullaniciRol == "Öğretim Elemanı")
+{
+<h2>Kapı İsimliği Oluştur</h2>
+
+<form method="post" asp-action="Create">
+    @* Bu gizli input öğretim elemanı ID’sini form ile taşır *@
+    <input type="hidden" name="OgretimElemaniID" value="@Model.OgretimElemaniID" />
+
+    <div class="form-group">
+        <label for="KapiIsimligiAdi">Kapı İsimliği Adı</label>
+        <input type="text" class="form-control" id="KapiIsimligiAdi" name="KapiIsimligiAdi" value="@Model.KapiIsimligiAdi" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Oluştur</button>
+</form>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

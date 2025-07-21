@@ -11,7 +11,10 @@ namespace StudentManagementSystem.Data
         public DbSet<Ders> Dersler { get; set; }
         public DbSet<Sinif> Siniflar { get; set; }
         public DbSet<Donem> Donemler { get; set; }
+        public DbSet<SinavOturmaPlani> SinavOturmaPlanlari { get; set; }
+        public DbSet<SinavNot> SinavNotlari { get; set; }
 
+        public DbSet<KapiIsimligi> KapiIsimlikleri { get; set; }  // Kapı isimliği için DbSet
         public DbSet<Derslik> Derslikler { get; set; }
         public DbSet<DersProgrami> DersProgramlari { get; set; }
         public DbSet<Sinav> Sinavlar { get; set; }
@@ -19,6 +22,21 @@ namespace StudentManagementSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+              modelBuilder.Entity<SinavOturmaPlani>()
+        .HasOne(s => s.Ogrenci)
+        .WithMany()  // Kullanıcı modeli içinde SinavOturmaPlanları koleksiyonu yoksa boş bırakılabilir
+        .HasForeignKey(s => s.OgrenciID)
+        .OnDelete(DeleteBehavior.Restrict);
+
+    modelBuilder.Entity<SinavOturmaPlani>()
+        .HasOne(s => s.Derslik)
+        .WithMany()  // Derslikte Sinavlar koleksiyonu varsa
+        .HasForeignKey(s => s.DerslikID);
+
+    modelBuilder.Entity<SinavOturmaPlani>()
+        .HasOne(s => s.Sinif)
+        .WithMany()  // Sinif içinde koleksiyon yoksa boş bırak
+        .HasForeignKey(s => s.SinifID);
 
             // Başlangıç rolleri
             modelBuilder.Entity<Rol>().HasData(
@@ -742,7 +760,305 @@ namespace StudentManagementSystem.Data
                     Eposta = "Adnan.Kavak@uni.edu",
                     Sifre = "1234", 
                     RolID = 2 
-                }
+                },new Kullanici
+                {
+                    KullaniciID = 23,  
+                    AdSoyad = "Ahmet Yılmaz", 
+                    Eposta = "ahmet.yilmaz@uni.edu",  
+                    Sifre = "abcd1234",  
+                    Numara = "2020501234",  // Öğrencinin öğrenci numarası (isteğe bağlı)
+                    RolID = 1, 
+                    SinifID = 1, 
+                },new Kullanici
+                {
+                    KullaniciID = 25,
+                    AdSoyad = "Bölüm Sekreteri 1",
+                    Eposta = "bolumsek@uni.edu",
+                    Sifre = "1234", 
+                    RolID = 3
+
+                },
+                new Kullanici
+                {
+                    KullaniciID = 31,  
+                    AdSoyad = "Ahmet Arslan", 
+                    Eposta = "ahmet.arslan@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501006",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 32,  
+                    AdSoyad = "Büşra Yılmaz", 
+                    Eposta = "busra.yilmaz@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501007",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 33,  
+                    AdSoyad = "Cemil Kılıç", 
+                    Eposta = "cemil.kilic@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501008",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 34,  
+                    AdSoyad = "Deniz Kaya", 
+                    Eposta = "deniz.kaya@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501009",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 35,  
+                    AdSoyad = "Elif Demir", 
+                    Eposta = "elif.demir@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501010",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 36,  
+                    AdSoyad = "Furkan Çelik", 
+                    Eposta = "furkan.celik@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501011",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 37,  
+                    AdSoyad = "Gökhan Akbaş", 
+                    Eposta = "gokhan.akbas@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501012",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 38,  
+                    AdSoyad = "Hüseyin Tekin", 
+                    Eposta = "huseyin.tekin@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501013",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 39,  
+                    AdSoyad = "İsmail Erdoğan", 
+                    Eposta = "ismail.erdogan@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501014",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 40,  
+                    AdSoyad = "Jale Bozkurt", 
+                    Eposta = "jale.bozkurt@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501015",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 41,  
+                    AdSoyad = "Kemal Özkan", 
+                    Eposta = "kemal.ozkan@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501016",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 42,  
+                    AdSoyad = "Lale Yıldız", 
+                    Eposta = "lale.yildiz@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501017",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 43,  
+                    AdSoyad = "Murat Akın", 
+                    Eposta = "murat.akin@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501018",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 44,  
+                    AdSoyad = "Nihan Güler", 
+                    Eposta = "nihan.guler@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501019",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 45,  
+                    AdSoyad = "Ozan Aydın", 
+                    Eposta = "ozan.aydin@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501020",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 46,  
+                    AdSoyad = "Pelin Çetin", 
+                    Eposta = "pelin.cetin@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501021",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 47,  
+                    AdSoyad = "Rıza Demirtaş", 
+                    Eposta = "riza.demirtas@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501022",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 48,  
+                    AdSoyad = "Sibel Koç", 
+                    Eposta = "sibel.koc@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501023",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 49,  
+                    AdSoyad = "Tuna Kalkan", 
+                    Eposta = "tuna.kalkan@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501024",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 50,  
+                    AdSoyad = "Uğur Doğan", 
+                    Eposta = "ugur.dogan@uni.edu",  
+                    Sifre = "1234",  
+                    Numara = "2020501025",  
+                    RolID = 1, 
+                    SinifID = 1, 
+                },
+                new Kullanici
+                {
+                    KullaniciID = 53,   
+                    AdSoyad = "Bölüm Başkanı",  
+                    Eposta = "bolumbaskani@uni.edu",   
+                    Sifre = "1234",   
+                    RolID = 4,  
+                  
+                },
+                    new Kullanici { KullaniciID = 60, AdSoyad = "Ali Yılmaz", Eposta = "ali.yilmaz@uni.edu", Sifre = "1234", Numara = "2020501060", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 61, AdSoyad = "Ayşe Demir", Eposta = "ayse.demir@uni.edu", Sifre = "1234", Numara = "2020501061", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 62, AdSoyad = "Mehmet Kara", Eposta = "mehmet.kara@uni.edu", Sifre = "1234", Numara = "2020501062", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 63, AdSoyad = "Zeynep Şahin", Eposta = "zeynep.sahin@uni.edu", Sifre = "1234", Numara = "2020501063", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 64, AdSoyad = "Emre Aydın", Eposta = "emre.aydin@uni.edu", Sifre = "1234", Numara = "2020501064", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 65, AdSoyad = "Fatma Yıldız", Eposta = "fatma.yildiz@uni.edu", Sifre = "1234", Numara = "2020501065", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 66, AdSoyad = "Ahmet Taş", Eposta = "ahmet.tas@uni.edu", Sifre = "1234", Numara = "2020501066", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 67, AdSoyad = "Elif Kurt", Eposta = "elif.kurt@uni.edu", Sifre = "1234", Numara = "2020501067", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 68, AdSoyad = "Mert Can", Eposta = "mert.can@uni.edu", Sifre = "1234", Numara = "2020501068", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 69, AdSoyad = "Buse Yalçın", Eposta = "buse.yalcin@uni.edu", Sifre = "1234", Numara = "2020501069", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 70, AdSoyad = "Oğuz Kaan", Eposta = "oguz.kaan@uni.edu", Sifre = "1234", Numara = "2020501070", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 71, AdSoyad = "Selin Polat", Eposta = "selin.polat@uni.edu", Sifre = "1234", Numara = "2020501071", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 72, AdSoyad = "Burak Güneş", Eposta = "burak.gunes@uni.edu", Sifre = "1234", Numara = "2020501072", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 73, AdSoyad = "Ceren Aksoy", Eposta = "ceren.aksoy@uni.edu", Sifre = "1234", Numara = "2020501073", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 74, AdSoyad = "Hasan Koç", Eposta = "hasan.koc@uni.edu", Sifre = "1234", Numara = "2020501074", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 75, AdSoyad = "Melis Tan", Eposta = "melis.tan@uni.edu", Sifre = "1234", Numara = "2020501075", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 76, AdSoyad = "Tuna Er", Eposta = "tuna.er@uni.edu", Sifre = "1234", Numara = "2020501076", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 77, AdSoyad = "Nazlı Gül", Eposta = "nazli.gul@uni.edu", Sifre = "1234", Numara = "2020501077", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 78, AdSoyad = "Onur Bayrak", Eposta = "onur.bayrak@uni.edu", Sifre = "1234", Numara = "2020501078", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 79, AdSoyad = "Simge Acar", Eposta = "simge.acar@uni.edu", Sifre = "1234", Numara = "2020501079", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 80, AdSoyad = "Baran Ateş", Eposta = "baran.ates@uni.edu", Sifre = "1234", Numara = "2020501080", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 81, AdSoyad = "İlayda Kılıç", Eposta = "ilayda.kilic@uni.edu", Sifre = "1234", Numara = "2020501081", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 82, AdSoyad = "Efe Demirtaş", Eposta = "efe.demirtas@uni.edu", Sifre = "1234", Numara = "2020501082", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 83, AdSoyad = "Sude Yüce", Eposta = "sude.yuce@uni.edu", Sifre = "1234", Numara = "2020501083", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 84, AdSoyad = "Kerem Bilgin", Eposta = "kerem.bilgin@uni.edu", Sifre = "1234", Numara = "2020501084", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 85, AdSoyad = "Zeliha Tuncel", Eposta = "zeliha.tuncel@uni.edu", Sifre = "1234", Numara = "2020501085", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 86, AdSoyad = "Hakan Özkan", Eposta = "hakan.ozkan@uni.edu", Sifre = "1234", Numara = "2020501086", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 87, AdSoyad = "Dilara Yılmaz", Eposta = "dilara.yilmaz@uni.edu", Sifre = "1234", Numara = "2020501087", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 88, AdSoyad = "Serkan Gültekin", Eposta = "serkan.gultekin@uni.edu", Sifre = "1234", Numara = "2020501088", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 89, AdSoyad = "Melek Şimşek", Eposta = "melek.simsek@uni.edu", Sifre = "1234", Numara = "2020501089", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 90, AdSoyad = "Enes Uçar", Eposta = "enes.ucar@uni.edu", Sifre = "1234", Numara = "2020501090", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 91, AdSoyad = "Tuğçe Kaya", Eposta = "tugce.kaya@uni.edu", Sifre = "1234", Numara = "2020501091", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 92, AdSoyad = "Yunus Emre", Eposta = "yunus.emre@uni.edu", Sifre = "1234", Numara = "2020501092", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 93, AdSoyad = "Naz Arslan", Eposta = "naz.arslan@uni.edu", Sifre = "1234", Numara = "2020501093", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 94, AdSoyad = "Berkay Gök", Eposta = "berkay.gok@uni.edu", Sifre = "1234", Numara = "2020501094", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 95, AdSoyad = "Necla Bozkurt", Eposta = "necla.bozkurt@uni.edu", Sifre = "1234", Numara = "2020501095", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 96, AdSoyad = "Taylan Ersoy", Eposta = "taylan.ersoy@uni.edu", Sifre = "1234", Numara = "2020501096", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 97, AdSoyad = "Gamze Kılıç", Eposta = "gamze.kilic@uni.edu", Sifre = "1234", Numara = "2020501097", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 98, AdSoyad = "Volkan Yalın", Eposta = "volkan.yalin@uni.edu", Sifre = "1234", Numara = "2020501098", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 99, AdSoyad = "İrem Akın", Eposta = "irem.akin@uni.edu", Sifre = "1234", Numara = "2020501099", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 100, AdSoyad = "Cansu Demirtaş", Eposta = "cansu.demirtas@uni.edu", Sifre = "1234", Numara = "2020501100", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 101, AdSoyad = "Yusuf Akman", Eposta = "yusuf.akman@uni.edu", Sifre = "1234", Numara = "2020501101", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 102, AdSoyad = "Sena Karaca", Eposta = "sena.karaca@uni.edu", Sifre = "1234", Numara = "2020501102", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 103, AdSoyad = "Kaan Erdem", Eposta = "kaan.erdem@uni.edu", Sifre = "1234", Numara = "2020501103", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 104, AdSoyad = "Merve Çetin", Eposta = "merve.cetin@uni.edu", Sifre = "1234", Numara = "2020501104", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 105, AdSoyad = "Okan Yüce", Eposta = "okan.yuce@uni.edu", Sifre = "1234", Numara = "2020501105", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 106, AdSoyad = "Beril Korkmaz", Eposta = "beril.korkmaz@uni.edu", Sifre = "1234", Numara = "2020501106", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 107, AdSoyad = "Furkan Duru", Eposta = "furkan.duru@uni.edu", Sifre = "1234", Numara = "2020501107", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 108, AdSoyad = "Gizem Uslu", Eposta = "gizem.uslu@uni.edu", Sifre = "1234", Numara = "2020501108", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 109, AdSoyad = "Ömer Faruk", Eposta = "omer.faruk@uni.edu", Sifre = "1234", Numara = "2020501109", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 110, AdSoyad = "Zehra Gök", Eposta = "zehra.gok@uni.edu", Sifre = "1234", Numara = "2020501110", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 111, AdSoyad = "Burcu Altın", Eposta = "burcu.altin@uni.edu", Sifre = "1234", Numara = "2020501111", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 112, AdSoyad = "Harun Bilgi", Eposta = "harun.bilgi@uni.edu", Sifre = "1234", Numara = "2020501112", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 113, AdSoyad = "Yasemin Tuna", Eposta = "yasemin.tuna@uni.edu", Sifre = "1234", Numara = "2020501113", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 114, AdSoyad = "Halil İbrahim", Eposta = "halil.ibrahim@uni.edu", Sifre = "1234", Numara = "2020501114", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 115, AdSoyad = "İlayda Şahin", Eposta = "ilayda.sahin@uni.edu", Sifre = "1234", Numara = "2020501115", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 116, AdSoyad = "Deniz Yaman", Eposta = "deniz.yaman@uni.edu", Sifre = "1234", Numara = "2020501116", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 117, AdSoyad = "Tunahan Erol", Eposta = "tunahan.erol@uni.edu", Sifre = "1234", Numara = "2020501117", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 118, AdSoyad = "Tuana Bal", Eposta = "tuana.bal@uni.edu", Sifre = "1234", Numara = "2020501118", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 119, AdSoyad = "Doğukan Keskin", Eposta = "dogukan.keskin@uni.edu", Sifre = "1234", Numara = "2020501119", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 120, AdSoyad = "Meltem Gür", Eposta = "meltem.gur@uni.edu", Sifre = "1234", Numara = "2020501120", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 121, AdSoyad = "Barış Kaya", Eposta = "baris.kaya@uni.edu", Sifre = "1234", Numara = "2020501121", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 122, AdSoyad = "Sibel Koç", Eposta = "sibel.koc@uni.edu", Sifre = "1234", Numara = "2020501122", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 123, AdSoyad = "Batuhan Arı", Eposta = "batuhan.ari@uni.edu", Sifre = "1234", Numara = "2020501123", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 124, AdSoyad = "Mina Dursun", Eposta = "mina.dursun@uni.edu", Sifre = "1234", Numara = "2020501124", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 125, AdSoyad = "Recep Acar", Eposta = "recep.acar@uni.edu", Sifre = "1234", Numara = "2020501125", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 126, AdSoyad = "Arda Toprak", Eposta = "arda.toprak@uni.edu", Sifre = "1234", Numara = "2020501126", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 127, AdSoyad = "Nisanur Bilge", Eposta = "nisanur.bilge@uni.edu", Sifre = "1234", Numara = "2020501127", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 128, AdSoyad = "Caner Tetik", Eposta = "caner.tetik@uni.edu", Sifre = "1234", Numara = "2020501128", RolID = 1, SinifID = 1 },
+                    new Kullanici { KullaniciID = 129, AdSoyad = "Yaren Aydemir", Eposta = "yaren.aydemir@uni.edu", Sifre = "1234", Numara = "2020501129", RolID = 1, SinifID = 1 }
+
+
             );
             modelBuilder.Entity<DersProgrami>().HasData(
                 new DersProgrami

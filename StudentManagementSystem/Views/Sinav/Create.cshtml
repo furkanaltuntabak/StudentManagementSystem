@@ -1,0 +1,69 @@
+@model StudentManagementSystem.Data.Sinav
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+    @{
+        ViewData["Title"] = "Oturma Düzeni Oluştur";
+    }
+    @{
+        var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    }
+    @if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+    {
+<form asp-action="Create" method="post">
+    <div class="form-group mb-3">
+        <label for="sinifID">Sınıf Seçiniz</label>
+        <select class="form-control" id="sinifID" name="sinifID" required>
+            <option value="">-- Sınıf Seçiniz --</option>
+            @foreach (var sinif in (SelectList)ViewBag.Siniflar)
+            {
+                <option value="@sinif.Value">@sinif.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="ogretmenID">Öğretim Elemanı Seçiniz</label>
+        <select class="form-control" id="ogretmenID" name="ogretmenID" required>
+            <option value="">-- Öğretmen Seçiniz --</option>
+            @foreach (var ogretmen in (SelectList)ViewBag.Ogretmenler)
+            {
+                <option value="@ogretmen.Value">@ogretmen.Text</option>
+            }
+        </select>
+    </div>
+        <div class="form-group mb-3">
+        <label for="dersID">Ders Seçiniz</label>
+        <select class="form-control" id="dersID" name="dersID" required>
+            <option value="">-- Ders Seçiniz --</option>
+            @foreach (var ders in (SelectList)ViewBag.Dersler)
+            {
+                <option value="@ders.Value">@ders.Text</option>
+            }
+        </select>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Oturma Planı Oluştur</button>
+</form>
+ }
+    else if (string.IsNullOrEmpty(kullaniciRol))
+    {
+        <div class="text-center mt-5">
+            <h3>Lütfen Giriş Yapın</h3>
+            <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+        </div>
+    }else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="text-center">
+                            Bu sayfa için yetkiniz yok!
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

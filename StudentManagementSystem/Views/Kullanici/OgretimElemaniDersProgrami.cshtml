@@ -1,0 +1,56 @@
+@model IEnumerable<StudentManagementSystem.Data.DersProgrami>
+    @inject IHttpContextAccessor HttpContextAccessor
+
+
+    
+    @{
+        ViewData["Title"] = "Kullanıcı Ekle";
+    }
+    @{
+        var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+    }
+    @if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+    {
+    <h2>Öğretim Elemanının Ders Programı</h2>
+  
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ders Adı</th>
+                <th>Derslik Adı</th>
+                <th>Gün</th>
+                <th>Saat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dersProgrami in Model)
+            {
+                <tr>
+                    <td>@dersProgrami.Ders.DersAdi</td>
+                    <td>@dersProgrami.Derslik.DerslikAdi</td>
+                    <td>@dersProgrami.Gun</td>
+                    <td>@dersProgrami.Saat</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

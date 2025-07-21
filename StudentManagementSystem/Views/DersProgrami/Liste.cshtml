@@ -4,6 +4,12 @@
     var gunler = new[] { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
     var saatler = Model.DersProgramlari.Select(m => m.Saat).Distinct().OrderBy(s => s).ToList();
 }
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+@if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı")
+{
 
 <form method="get" asp-controller="DersProgrami" asp-action="Liste" class="mb-4">
     <div class="row">
@@ -129,3 +135,23 @@
         donemDropdown.value = '';
     });
 </script>
+}else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    <span class="text-center">
+                        Bu sayfa için yetkiniz yok!
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

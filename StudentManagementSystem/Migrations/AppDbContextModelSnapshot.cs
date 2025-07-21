@@ -746,6 +746,12 @@ namespace StudentManagementSystem.Migrations
                     b.Property<int>("Kapasite")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("KoltukSayisi")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SiraSayisi")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("DerslikID");
 
                     b.ToTable("Derslikler");
@@ -755,26 +761,57 @@ namespace StudentManagementSystem.Migrations
                         {
                             DerslikID = 1,
                             DerslikAdi = "Amfi",
-                            Kapasite = 100
+                            Kapasite = 100,
+                            KoltukSayisi = 0,
+                            SiraSayisi = 0
                         },
                         new
                         {
                             DerslikID = 2,
                             DerslikAdi = "Lab",
-                            Kapasite = 100
+                            Kapasite = 100,
+                            KoltukSayisi = 0,
+                            SiraSayisi = 0
                         },
                         new
                         {
                             DerslikID = 3,
                             DerslikAdi = "D-108",
-                            Kapasite = 100
+                            Kapasite = 100,
+                            KoltukSayisi = 0,
+                            SiraSayisi = 0
                         },
                         new
                         {
                             DerslikID = 4,
                             DerslikAdi = "Uzaktan Eğitim (UE)",
-                            Kapasite = 300
+                            Kapasite = 300,
+                            KoltukSayisi = 0,
+                            SiraSayisi = 0
                         });
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Data.KapiIsimligi", b =>
+                {
+                    b.Property<int>("KapiIsimligiID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("KapiIsimligiAdi")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OgretimElemaniID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SinifAdi")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("KapiIsimligiID");
+
+                    b.HasIndex("OgretimElemaniID");
+
+                    b.ToTable("KapiIsimlikleri");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Data.Kullanici", b =>
@@ -980,6 +1017,932 @@ namespace StudentManagementSystem.Migrations
                             Eposta = "Adnan.Kavak@uni.edu",
                             RolID = 2,
                             Sifre = "1234"
+                        },
+                        new
+                        {
+                            KullaniciID = 23,
+                            AdSoyad = "Ahmet Yılmaz",
+                            Eposta = "ahmet.yilmaz@uni.edu",
+                            Numara = "2020501234",
+                            RolID = 1,
+                            Sifre = "abcd1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 25,
+                            AdSoyad = "Bölüm Sekreteri 1",
+                            Eposta = "bolumsek@uni.edu",
+                            RolID = 3,
+                            Sifre = "1234"
+                        },
+                        new
+                        {
+                            KullaniciID = 31,
+                            AdSoyad = "Ahmet Arslan",
+                            Eposta = "ahmet.arslan@uni.edu",
+                            Numara = "2020501006",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 32,
+                            AdSoyad = "Büşra Yılmaz",
+                            Eposta = "busra.yilmaz@uni.edu",
+                            Numara = "2020501007",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 33,
+                            AdSoyad = "Cemil Kılıç",
+                            Eposta = "cemil.kilic@uni.edu",
+                            Numara = "2020501008",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 34,
+                            AdSoyad = "Deniz Kaya",
+                            Eposta = "deniz.kaya@uni.edu",
+                            Numara = "2020501009",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 35,
+                            AdSoyad = "Elif Demir",
+                            Eposta = "elif.demir@uni.edu",
+                            Numara = "2020501010",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 36,
+                            AdSoyad = "Furkan Çelik",
+                            Eposta = "furkan.celik@uni.edu",
+                            Numara = "2020501011",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 37,
+                            AdSoyad = "Gökhan Akbaş",
+                            Eposta = "gokhan.akbas@uni.edu",
+                            Numara = "2020501012",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 38,
+                            AdSoyad = "Hüseyin Tekin",
+                            Eposta = "huseyin.tekin@uni.edu",
+                            Numara = "2020501013",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 39,
+                            AdSoyad = "İsmail Erdoğan",
+                            Eposta = "ismail.erdogan@uni.edu",
+                            Numara = "2020501014",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 40,
+                            AdSoyad = "Jale Bozkurt",
+                            Eposta = "jale.bozkurt@uni.edu",
+                            Numara = "2020501015",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 41,
+                            AdSoyad = "Kemal Özkan",
+                            Eposta = "kemal.ozkan@uni.edu",
+                            Numara = "2020501016",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 42,
+                            AdSoyad = "Lale Yıldız",
+                            Eposta = "lale.yildiz@uni.edu",
+                            Numara = "2020501017",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 43,
+                            AdSoyad = "Murat Akın",
+                            Eposta = "murat.akin@uni.edu",
+                            Numara = "2020501018",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 44,
+                            AdSoyad = "Nihan Güler",
+                            Eposta = "nihan.guler@uni.edu",
+                            Numara = "2020501019",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 45,
+                            AdSoyad = "Ozan Aydın",
+                            Eposta = "ozan.aydin@uni.edu",
+                            Numara = "2020501020",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 46,
+                            AdSoyad = "Pelin Çetin",
+                            Eposta = "pelin.cetin@uni.edu",
+                            Numara = "2020501021",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 47,
+                            AdSoyad = "Rıza Demirtaş",
+                            Eposta = "riza.demirtas@uni.edu",
+                            Numara = "2020501022",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 48,
+                            AdSoyad = "Sibel Koç",
+                            Eposta = "sibel.koc@uni.edu",
+                            Numara = "2020501023",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 49,
+                            AdSoyad = "Tuna Kalkan",
+                            Eposta = "tuna.kalkan@uni.edu",
+                            Numara = "2020501024",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 50,
+                            AdSoyad = "Uğur Doğan",
+                            Eposta = "ugur.dogan@uni.edu",
+                            Numara = "2020501025",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 53,
+                            AdSoyad = "Bölüm Başkanı",
+                            Eposta = "bolumbaskani@uni.edu",
+                            RolID = 4,
+                            Sifre = "1234"
+                        },
+                        new
+                        {
+                            KullaniciID = 60,
+                            AdSoyad = "Ali Yılmaz",
+                            Eposta = "ali.yilmaz@uni.edu",
+                            Numara = "2020501060",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 61,
+                            AdSoyad = "Ayşe Demir",
+                            Eposta = "ayse.demir@uni.edu",
+                            Numara = "2020501061",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 62,
+                            AdSoyad = "Mehmet Kara",
+                            Eposta = "mehmet.kara@uni.edu",
+                            Numara = "2020501062",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 63,
+                            AdSoyad = "Zeynep Şahin",
+                            Eposta = "zeynep.sahin@uni.edu",
+                            Numara = "2020501063",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 64,
+                            AdSoyad = "Emre Aydın",
+                            Eposta = "emre.aydin@uni.edu",
+                            Numara = "2020501064",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 65,
+                            AdSoyad = "Fatma Yıldız",
+                            Eposta = "fatma.yildiz@uni.edu",
+                            Numara = "2020501065",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 66,
+                            AdSoyad = "Ahmet Taş",
+                            Eposta = "ahmet.tas@uni.edu",
+                            Numara = "2020501066",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 67,
+                            AdSoyad = "Elif Kurt",
+                            Eposta = "elif.kurt@uni.edu",
+                            Numara = "2020501067",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 68,
+                            AdSoyad = "Mert Can",
+                            Eposta = "mert.can@uni.edu",
+                            Numara = "2020501068",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 69,
+                            AdSoyad = "Buse Yalçın",
+                            Eposta = "buse.yalcin@uni.edu",
+                            Numara = "2020501069",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 70,
+                            AdSoyad = "Oğuz Kaan",
+                            Eposta = "oguz.kaan@uni.edu",
+                            Numara = "2020501070",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 71,
+                            AdSoyad = "Selin Polat",
+                            Eposta = "selin.polat@uni.edu",
+                            Numara = "2020501071",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 72,
+                            AdSoyad = "Burak Güneş",
+                            Eposta = "burak.gunes@uni.edu",
+                            Numara = "2020501072",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 73,
+                            AdSoyad = "Ceren Aksoy",
+                            Eposta = "ceren.aksoy@uni.edu",
+                            Numara = "2020501073",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 74,
+                            AdSoyad = "Hasan Koç",
+                            Eposta = "hasan.koc@uni.edu",
+                            Numara = "2020501074",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 75,
+                            AdSoyad = "Melis Tan",
+                            Eposta = "melis.tan@uni.edu",
+                            Numara = "2020501075",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 76,
+                            AdSoyad = "Tuna Er",
+                            Eposta = "tuna.er@uni.edu",
+                            Numara = "2020501076",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 77,
+                            AdSoyad = "Nazlı Gül",
+                            Eposta = "nazli.gul@uni.edu",
+                            Numara = "2020501077",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 78,
+                            AdSoyad = "Onur Bayrak",
+                            Eposta = "onur.bayrak@uni.edu",
+                            Numara = "2020501078",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 79,
+                            AdSoyad = "Simge Acar",
+                            Eposta = "simge.acar@uni.edu",
+                            Numara = "2020501079",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 80,
+                            AdSoyad = "Baran Ateş",
+                            Eposta = "baran.ates@uni.edu",
+                            Numara = "2020501080",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 81,
+                            AdSoyad = "İlayda Kılıç",
+                            Eposta = "ilayda.kilic@uni.edu",
+                            Numara = "2020501081",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 82,
+                            AdSoyad = "Efe Demirtaş",
+                            Eposta = "efe.demirtas@uni.edu",
+                            Numara = "2020501082",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 83,
+                            AdSoyad = "Sude Yüce",
+                            Eposta = "sude.yuce@uni.edu",
+                            Numara = "2020501083",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 84,
+                            AdSoyad = "Kerem Bilgin",
+                            Eposta = "kerem.bilgin@uni.edu",
+                            Numara = "2020501084",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 85,
+                            AdSoyad = "Zeliha Tuncel",
+                            Eposta = "zeliha.tuncel@uni.edu",
+                            Numara = "2020501085",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 86,
+                            AdSoyad = "Hakan Özkan",
+                            Eposta = "hakan.ozkan@uni.edu",
+                            Numara = "2020501086",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 87,
+                            AdSoyad = "Dilara Yılmaz",
+                            Eposta = "dilara.yilmaz@uni.edu",
+                            Numara = "2020501087",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 88,
+                            AdSoyad = "Serkan Gültekin",
+                            Eposta = "serkan.gultekin@uni.edu",
+                            Numara = "2020501088",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 89,
+                            AdSoyad = "Melek Şimşek",
+                            Eposta = "melek.simsek@uni.edu",
+                            Numara = "2020501089",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 90,
+                            AdSoyad = "Enes Uçar",
+                            Eposta = "enes.ucar@uni.edu",
+                            Numara = "2020501090",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 91,
+                            AdSoyad = "Tuğçe Kaya",
+                            Eposta = "tugce.kaya@uni.edu",
+                            Numara = "2020501091",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 92,
+                            AdSoyad = "Yunus Emre",
+                            Eposta = "yunus.emre@uni.edu",
+                            Numara = "2020501092",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 93,
+                            AdSoyad = "Naz Arslan",
+                            Eposta = "naz.arslan@uni.edu",
+                            Numara = "2020501093",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 94,
+                            AdSoyad = "Berkay Gök",
+                            Eposta = "berkay.gok@uni.edu",
+                            Numara = "2020501094",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 95,
+                            AdSoyad = "Necla Bozkurt",
+                            Eposta = "necla.bozkurt@uni.edu",
+                            Numara = "2020501095",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 96,
+                            AdSoyad = "Taylan Ersoy",
+                            Eposta = "taylan.ersoy@uni.edu",
+                            Numara = "2020501096",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 97,
+                            AdSoyad = "Gamze Kılıç",
+                            Eposta = "gamze.kilic@uni.edu",
+                            Numara = "2020501097",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 98,
+                            AdSoyad = "Volkan Yalın",
+                            Eposta = "volkan.yalin@uni.edu",
+                            Numara = "2020501098",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 99,
+                            AdSoyad = "İrem Akın",
+                            Eposta = "irem.akin@uni.edu",
+                            Numara = "2020501099",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 100,
+                            AdSoyad = "Cansu Demirtaş",
+                            Eposta = "cansu.demirtas@uni.edu",
+                            Numara = "2020501100",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 101,
+                            AdSoyad = "Yusuf Akman",
+                            Eposta = "yusuf.akman@uni.edu",
+                            Numara = "2020501101",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 102,
+                            AdSoyad = "Sena Karaca",
+                            Eposta = "sena.karaca@uni.edu",
+                            Numara = "2020501102",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 103,
+                            AdSoyad = "Kaan Erdem",
+                            Eposta = "kaan.erdem@uni.edu",
+                            Numara = "2020501103",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 104,
+                            AdSoyad = "Merve Çetin",
+                            Eposta = "merve.cetin@uni.edu",
+                            Numara = "2020501104",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 105,
+                            AdSoyad = "Okan Yüce",
+                            Eposta = "okan.yuce@uni.edu",
+                            Numara = "2020501105",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 106,
+                            AdSoyad = "Beril Korkmaz",
+                            Eposta = "beril.korkmaz@uni.edu",
+                            Numara = "2020501106",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 107,
+                            AdSoyad = "Furkan Duru",
+                            Eposta = "furkan.duru@uni.edu",
+                            Numara = "2020501107",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 108,
+                            AdSoyad = "Gizem Uslu",
+                            Eposta = "gizem.uslu@uni.edu",
+                            Numara = "2020501108",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 109,
+                            AdSoyad = "Ömer Faruk",
+                            Eposta = "omer.faruk@uni.edu",
+                            Numara = "2020501109",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 110,
+                            AdSoyad = "Zehra Gök",
+                            Eposta = "zehra.gok@uni.edu",
+                            Numara = "2020501110",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 111,
+                            AdSoyad = "Burcu Altın",
+                            Eposta = "burcu.altin@uni.edu",
+                            Numara = "2020501111",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 112,
+                            AdSoyad = "Harun Bilgi",
+                            Eposta = "harun.bilgi@uni.edu",
+                            Numara = "2020501112",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 113,
+                            AdSoyad = "Yasemin Tuna",
+                            Eposta = "yasemin.tuna@uni.edu",
+                            Numara = "2020501113",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 114,
+                            AdSoyad = "Halil İbrahim",
+                            Eposta = "halil.ibrahim@uni.edu",
+                            Numara = "2020501114",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 115,
+                            AdSoyad = "İlayda Şahin",
+                            Eposta = "ilayda.sahin@uni.edu",
+                            Numara = "2020501115",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 116,
+                            AdSoyad = "Deniz Yaman",
+                            Eposta = "deniz.yaman@uni.edu",
+                            Numara = "2020501116",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 117,
+                            AdSoyad = "Tunahan Erol",
+                            Eposta = "tunahan.erol@uni.edu",
+                            Numara = "2020501117",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 118,
+                            AdSoyad = "Tuana Bal",
+                            Eposta = "tuana.bal@uni.edu",
+                            Numara = "2020501118",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 119,
+                            AdSoyad = "Doğukan Keskin",
+                            Eposta = "dogukan.keskin@uni.edu",
+                            Numara = "2020501119",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 120,
+                            AdSoyad = "Meltem Gür",
+                            Eposta = "meltem.gur@uni.edu",
+                            Numara = "2020501120",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 121,
+                            AdSoyad = "Barış Kaya",
+                            Eposta = "baris.kaya@uni.edu",
+                            Numara = "2020501121",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 122,
+                            AdSoyad = "Sibel Koç",
+                            Eposta = "sibel.koc@uni.edu",
+                            Numara = "2020501122",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 123,
+                            AdSoyad = "Batuhan Arı",
+                            Eposta = "batuhan.ari@uni.edu",
+                            Numara = "2020501123",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 124,
+                            AdSoyad = "Mina Dursun",
+                            Eposta = "mina.dursun@uni.edu",
+                            Numara = "2020501124",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 125,
+                            AdSoyad = "Recep Acar",
+                            Eposta = "recep.acar@uni.edu",
+                            Numara = "2020501125",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 126,
+                            AdSoyad = "Arda Toprak",
+                            Eposta = "arda.toprak@uni.edu",
+                            Numara = "2020501126",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 127,
+                            AdSoyad = "Nisanur Bilge",
+                            Eposta = "nisanur.bilge@uni.edu",
+                            Numara = "2020501127",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 128,
+                            AdSoyad = "Caner Tetik",
+                            Eposta = "caner.tetik@uni.edu",
+                            Numara = "2020501128",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
+                        },
+                        new
+                        {
+                            KullaniciID = 129,
+                            AdSoyad = "Yaren Aydemir",
+                            Eposta = "yaren.aydemir@uni.edu",
+                            Numara = "2020501129",
+                            RolID = 1,
+                            Sifre = "1234",
+                            SinifID = 1
                         });
                 });
 
@@ -1032,6 +1995,9 @@ namespace StudentManagementSystem.Migrations
                     b.Property<int>("DerslikID")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("OgretimElemaniID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Saat")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -1045,7 +2011,68 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasIndex("DerslikID");
 
+                    b.HasIndex("OgretimElemaniID");
+
                     b.ToTable("Sinavlar");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Data.SinavNot", b =>
+                {
+                    b.Property<int>("SinavNotID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("EklenmeTarihi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotMetni")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("OgretimElemaniID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SinavID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SinavNotID");
+
+                    b.HasIndex("OgretimElemaniID");
+
+                    b.HasIndex("SinavID");
+
+                    b.ToTable("SinavNotlari");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Data.SinavOturmaPlani", b =>
+                {
+                    b.Property<int>("SinavOturmaPlaniID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DerslikID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("KoltukNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OgrenciID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SinifID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SiraNo")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SinavOturmaPlaniID");
+
+                    b.HasIndex("DerslikID");
+
+                    b.HasIndex("OgrenciID");
+
+                    b.HasIndex("SinifID");
+
+                    b.ToTable("SinavOturmaPlanlari");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Data.Ders", b =>
@@ -1088,6 +2115,17 @@ namespace StudentManagementSystem.Migrations
                     b.Navigation("Derslik");
                 });
 
+            modelBuilder.Entity("StudentManagementSystem.Data.KapiIsimligi", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Data.Kullanici", "OgretimElemani")
+                        .WithMany()
+                        .HasForeignKey("OgretimElemaniID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OgretimElemani");
+                });
+
             modelBuilder.Entity("StudentManagementSystem.Data.Kullanici", b =>
                 {
                     b.HasOne("StudentManagementSystem.Data.Rol", "Rol")
@@ -1119,9 +2157,61 @@ namespace StudentManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StudentManagementSystem.Data.Kullanici", "OgretimElemani")
+                        .WithMany()
+                        .HasForeignKey("OgretimElemaniID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Ders");
 
                     b.Navigation("Derslik");
+
+                    b.Navigation("OgretimElemani");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Data.SinavNot", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Data.Kullanici", "OgretimElemani")
+                        .WithMany()
+                        .HasForeignKey("OgretimElemaniID");
+
+                    b.HasOne("StudentManagementSystem.Data.Sinav", "Sinav")
+                        .WithMany()
+                        .HasForeignKey("SinavID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OgretimElemani");
+
+                    b.Navigation("Sinav");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Data.SinavOturmaPlani", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Data.Derslik", "Derslik")
+                        .WithMany()
+                        .HasForeignKey("DerslikID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagementSystem.Data.Kullanici", "Ogrenci")
+                        .WithMany()
+                        .HasForeignKey("OgrenciID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Sinif", "Sinif")
+                        .WithMany()
+                        .HasForeignKey("SinifID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Derslik");
+
+                    b.Navigation("Ogrenci");
+
+                    b.Navigation("Sinif");
                 });
 
             modelBuilder.Entity("Donem", b =>

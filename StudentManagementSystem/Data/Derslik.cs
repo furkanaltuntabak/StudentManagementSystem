@@ -13,6 +13,12 @@ namespace StudentManagementSystem.Data
         [Required]
         public int Kapasite { get; set; }
 
+
+        public int SiraSayisi { get; set; }  // Yeni: sıra sayısı
+
+     
+        public int KoltukSayisi { get; set; }  // Yeni: her sıradaki koltuk sayısı
+
         public ICollection<DersProgrami>? DersProgramlari { get; set; }
         public ICollection<Sinav>? Sinavlar { get; set; }
     }

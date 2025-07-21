@@ -1,0 +1,66 @@
+@inject IHttpContextAccessor HttpContextAccessor
+@model StudentManagementSystem.Data.Kullanici
+
+@{
+    ViewData["Title"] = "Kullanıcı Ekle (Bölüm Başkanı)";
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+
+@if (kullaniciRol == "Bölüm Başkanı")
+{
+    <h1>Kullanıcı Ekle (Bölüm Başkanı)</h1>
+
+    <form asp-action="BaskanKullaniciEkle" method="post">
+        <div class="form-group">
+            <label for="AdSoyad">Ad Soyad</label>
+            <input type="text" class="form-control" id="AdSoyad" name="AdSoyad" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Eposta">E-posta</label>
+            <input type="email" class="form-control" id="Eposta" name="Eposta" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Sifre">Şifre</label>
+            <input type="password" class="form-control" id="Sifre" name="Sifre" required />
+        </div>
+
+        <div class="form-group">
+            <label for="SinifID">Sınıf (Sadece Öğrenci için)</label>
+            <select class="form-select" id="SinifID" name="SinifID">
+                <option value="">-- Sınıf Seçin --</option>
+                @foreach (var sinif in (List<SelectListItem>)ViewBag.Siniflar)
+                {
+                    <option value="@sinif.Value">@sinif.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="RolID">Rol</label>
+            <select class="form-select" id="RolID" name="RolID" required>
+                <option value="">-- Rol Seçin --</option>
+                @foreach (var rol in (List<SelectListItem>)ViewBag.Roller)
+                {
+                    <option value="@rol.Value">@rol.Text</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Ekle</button>
+    </form>
+}
+else if (string.IsNullOrEmpty(kullaniciRol))
+{
+    <div class="text-center mt-5">
+        <h3>Lütfen Giriş Yapın</h3>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger mt-5 text-center">
+        Bu sayfa için yetkiniz yok!
+    </div>
+}

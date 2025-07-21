@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Not Al";
+}
+
+<h2>@ViewBag.DersAdi - Not Ekle</h2>
+
+<form method="post">
+    <input type="hidden" name="sinavID" value="@ViewBag.SinavID" />
+    <div class="form-group">
+        <label>Not:</label>
+        <textarea name="notMetni" class="form-control" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success mt-2">Kaydet</button>
+</form>

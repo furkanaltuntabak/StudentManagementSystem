@@ -1,0 +1,41 @@
+@model StudentManagementSystem.Data.SinavNot
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Kullanıcı Listesi";
+    var kullaniciRol = HttpContextAccessor.HttpContext.Session.GetString("KullaniciRol");
+}
+
+@if (kullaniciRol == "Bölüm Sekreteri" || kullaniciRol == "Bölüm Başkanı" || kullaniciRol == "Öğretim Elemanı")
+{
+<h3>@Model.Sinav.Ders.DersAdi sınavı için girilen not:</h3>
+
+<div class="alert alert-info mt-3">
+    <strong>Not:</strong> @Model.NotMetni
+    <br />
+    <strong>Ekleyen Öğretim Elemanı:</strong> @Model.OgretimElemani?.AdSoyad
+    <br />
+    <small><em>Eklenme Tarihi: @Model.EklenmeTarihi.ToString("f")</em></small>
+</div>
+
+<a class="btn btn-secondary" href="@Url.Action("Liste", "Sinav")">← Geri Dön</a>
+    }else if (string.IsNullOrEmpty(kullaniciRol))
+    {
+        <div class="text-center mt-5">
+            <h3>Lütfen Giriş Yapın</h3>
+            <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+        </div>
+    }else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="text-center">
+                            Bu sayfa için yetkiniz yok!
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

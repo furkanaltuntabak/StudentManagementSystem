@@ -1,83 +1,101 @@
-# Student Management System
+Student Management System
+This project is a ASP.NET Core MVC-based school management system developed for Kocaeli University. The system provides functionalities according to the access levels of different user roles such as student, faculty member, department secretary, and department head.
 
-Bu proje, Kocaeli Üniversitesi için geliştirilmiş bir **ASP.NET Core MVC tabanlı okul yönetim sistemidir**. Sistem, öğrenci, öğretim elemanı, bölüm sekreteri ve bölüm başkanı gibi farklı rollere sahip kullanıcıların erişim düzeylerine göre işlevler sunar.
+Features
+Roles and Permissions
+1. Department Head
+Access to all modules.
 
-## Özellikler
+Can manage user authorizations.
 
-### Roller ve Yetkiler
+Can manage courses, classrooms, course schedules, and exams.
 
-#### 1. Bölüm Başkanı
-- Tüm modüllere erişim sağlar.
-- Kullanıcı yetkilendirmesi yapabilir.
-- Ders, derslik, ders programı ve sınav işlemlerini yapabilir.
-- Öğretim elemanlarına ders atayabilir.
-- Sınav oturma düzenini belirleyebilir.
+Can assign courses to faculty members.
 
-#### 2. Bölüm Sekreteri
-- Kullanıcı kaydı oluşturabilir.
-- Ders ve derslik işlemlerini yapabilir.
-- Ders programı oluşturabilir ve listeleyebilir.
-- Öğretim elemanlarına ders atayabilir.
-- Öğretim elemanlarının programlarını görebilir.
+Can determine exam seating arrangements.
 
-#### 3. Öğretim Elemanı
-- Kendi ders ve sınav programını görüntüleyebilir.
-- Not girişi yapabilir.
+2. Department Secretary
+Can create user registrations.
 
-#### 4. Öğrenci
-- Kendi ders ve sınav programını görüntüleyebilir.
+Can manage courses and classrooms.
 
-## Ana Modüller
+Can create and list course schedules.
 
-- **Kullanıcı Yönetimi**: Öğrenci ve öğretim elemanı eklenmesi.
-- **Ders Yönetimi**: Ders ekleme ve listeleme.
-- **Derslik Yönetimi**: Derslikleri listeleme.
-- **Ders Programı**: Döneme ve sınıfa göre ders programı oluşturma ve listeleme.
-- **Sınav Yönetimi**: Sınav ekleme, listeleme ve kişisel sınav programı görüntüleme.
-- **Öğretim Elemanına Ders Atama**: Derslerin öğretim elemanlarıyla eşleştirilmesi.
+Can assign courses to faculty members.
 
-## Teknolojiler
+Can view faculty members' schedules.
 
-- ASP.NET Core MVC
-- Entity Framework Core (EF Core)
-- SQL Server
-- HTML5, CSS3, Bootstrap
-- Session Yönetimi (Rol tabanlı erişim kontrolü)
+3. Faculty Member
+Can view their own course and exam schedules.
 
-## Projenin Kullanımı
+Can enter grades.
 
-1. **Projeyi klonlayın:**
+4. Student
+Can view their own course and exam schedules.
 
-```bash
-git clone https://github.com/kullaniciadi/student-management-system.git
-Veritabanını oluşturun:
+Main Modules
+User Management: Adding students and faculty members.
 
-AppDbContext.cs içinde gerekli DbSet’ler tanımlıdır.
+Course Management: Adding and listing courses.
 
-dotnet ef database update komutu ile veritabanı oluşturulabilir.
+Classroom Management: Listing classrooms.
 
-Uygulamayı başlatın:
+Course Scheduling: Creating and listing course schedules by term and class.
+
+Exam Management: Adding, listing exams, and viewing personal exam schedules.
+
+Assigning Courses to Faculty Members: Matching courses with faculty members.
+
+Technologies
+ASP.NET Core MVC
+
+Entity Framework Core (EF Core)
+
+SQL Server
+
+HTML5, CSS3, Bootstrap
+
+Session Management (Role-based access control)
+
+How to Use the Project
+Clone the project:
 
 bash
 Kopyala
 Düzenle
+git clone https://github.com/furkanaltuntabak/studentmanagementsystem.git
+Create the database:
+
+The necessary DbSets are defined inside AppDbContext.cs.
+
+Run the following command to create the database:
+
+bash
+copy
+edit
+dotnet ef database update
+Run the application:
+
+bash
+copy
+edit
 dotnet run
-Giriş Bilgileri:
+Login details:
 
-Giriş ekranı: /Account/Login
+Login page: /Account/Login
 
-Rol bilgisine göre arayüzler otomatik belirlenir.
+The UI will automatically adjust based on the user role.
 
-Proje Yapısı
-Controllers/: MVC Controller dosyaları
+Project Structure
+Controllers/: MVC controller files
 
-Models/: Entity sınıfları
+Models/: Entity classes
 
-Views/: Razor view dosyaları
+Views/: Razor view files
 
-wwwroot/: Statik dosyalar (CSS, JS)
+wwwroot/: Static files (CSS, JS)
 
-Data/AppDbContext.cs: EF Core veritabanı bağlantısı
+Data/AppDbContext.cs: EF Core database context
 
-Katkıda Bulunma
-Proje üniversite ödevi kapsamında hazırlandığından katkıya açık değildir. Ancak referans amaçlı kullanılabilir.
+Contribution
+This project was prepared as a university assignment and is not open for contributions. However, it can be used for reference purposes.

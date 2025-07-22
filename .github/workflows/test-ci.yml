@@ -28,3 +28,6 @@ jobs:
 
     - name: Yayın dosyalarını ZIP'e al
       run: Compress-Archive -Path ./publish/* -DestinationPath release.zip
+
+    - name: Testleri çalıştır
+      run: dotnet test

@@ -1,0 +1,30 @@
+name: Test CI - Build Only
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Kodları al
+      uses: actions/checkout@v3
+
+    - name: .NET kur
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Projeyi build et
+      run: dotnet build --configuration Release
+
+    - name: Yayın klasörünü oluştur
+      run: dotnet publish -c Release -o ./publish
+
+    - name: Yayın dosyalarını listele
+      run: dir ./publish
+
+    - name: Yayın dosyalarını ZIP'e al
+      run: Compress-Archive -Path ./publish/* -DestinationPath release.zip

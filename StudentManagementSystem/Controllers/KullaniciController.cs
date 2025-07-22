@@ -80,6 +80,7 @@ namespace StudentManagementSystem.Controllers
             var rol = HttpContext.Session.GetString("KullaniciRol");
 
             if (rol == "Bölüm Başkanı")
+
             {
                 return RedirectToAction("BaskanListe");
             }
@@ -117,7 +118,7 @@ namespace StudentManagementSystem.Controllers
 
             // Öğretim elemanına ait ders programlarını alıyoruz
             var dersProgramlari = _context.DersProgramlari
-                .Where(dp => dp.Ders.OgretimElemaniID == kullaniciId)  // Öğretim elemanına atanmış derslerin programını getiriyoruz
+                .Where(dp => dp.Ders!.OgretimElemaniID == kullaniciId)  // Öğretim elemanına atanmış derslerin programını getiriyoruz
                 .Include(dp => dp.Ders)  // Ders detaylarını dahil ediyoruz
                 .Include(dp => dp.Derslik)  // Derslik detaylarını dahil ediyoruz
                 .ToList();

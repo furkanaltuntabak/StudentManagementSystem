@@ -54,7 +54,7 @@ namespace StudentManagementSystem.Controllers
                 .Any(dp =>
                     dp.Gun == model.Gun &&
                     dp.Saat == model.Saat &&
-                    dp.Ders.OgretimElemaniID == seciliDers.OgretimElemaniID &&
+                    dp.Ders!.OgretimElemaniID == seciliDers.OgretimElemaniID &&
                     dp.Ders.DonemID % 2 == seciliDers.DonemID % 2
                 );
 
@@ -220,7 +220,7 @@ public IActionResult OgrenciDersProgrami()
     var dersProgrami = _context.DersProgramlari
         .Include(dp => dp.Ders)
         .Include(dp => dp.Derslik)
-        .Where(dp => dp.Ders.SinifID == sinifID)
+        .Where(dp => dp.Ders!.SinifID == sinifID)
         .ToList();
 
     var viewModel = new DersProgramiListeViewModel
